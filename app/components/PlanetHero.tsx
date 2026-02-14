@@ -59,9 +59,6 @@ const PlanetSphere = React.memo<PlanetSphereProps>(function PlanetSphere({ warmt
 
   return (
     <div className="relative w-full h-full flex items-center justify-center">
-      {/* Atmospheric halo ring - outermost layer with gentle pulse */}
-      <AtmosphericHalo color={getCoolColor()} />
-
       {/* Main rotating planet container */}
       <motion.div
         className="absolute w-full h-full"
@@ -77,20 +74,31 @@ const PlanetSphere = React.memo<PlanetSphereProps>(function PlanetSphere({ warmt
           ease: 'linear',
         }}
       >
-        {/* Layer 1: Base sphere */}
+        {/* Layer 1: Earth texture base */}
+        <div className="absolute inset-0 rounded-full overflow-hidden">
+          <img
+            src="/earth.png"
+            alt="Earth"
+            className="w-full h-full object-cover"
+            draggable={false}
+          />
+        </div>
+
+        {/* Layer 2: Warmth color overlay */}
         <div
           className="absolute inset-0 rounded-full"
           style={{
             background: `radial-gradient(circle at 30% 30%, ${getCoolColor()}, ${getWarmColor()})`,
-            opacity: 0.5,
+            opacity: warmth * 0.3, // Subtle color shift based on warmth
+            mixBlendMode: 'overlay',
             willChange: 'opacity',
           }}
         />
 
-        {/* Layer 2: Drifting clouds */}
+        {/* Layer 3: Drifting clouds */}
         <CloudLayer />
 
-        {/* Layer 3: Smog overlay */}
+        {/* Layer 4: Smog overlay */}
         <div
           className="absolute inset-0 rounded-full"
           style={{
@@ -101,30 +109,6 @@ const PlanetSphere = React.memo<PlanetSphereProps>(function PlanetSphere({ warmt
         />
       </motion.div>
     </div>
-  )
-})
-
-// Separate component for atmospheric halo to prevent re-animation on prop changes
-const AtmosphericHalo = React.memo<{ color: string }>(function AtmosphericHalo({ color }) {
-  return (
-    <motion.div
-      className="absolute inset-0 rounded-full"
-      style={{
-        width: '100%',
-        height: '100%',
-        border: `2px solid ${color}`,
-        willChange: 'opacity',
-        transform: 'scale(1.25)',
-      }}
-      animate={{
-        opacity: [0.1, 0.25, 0.1],
-      }}
-      transition={{
-        duration: 5,
-        repeat: Infinity,
-        ease: 'easeInOut',
-      }}
-    />
   )
 })
 

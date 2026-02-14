@@ -25,25 +25,25 @@ export const SliderRow = React.memo<SliderRowProps>(function SliderRow({
   const fillProgress = (value - min) / (max - min)
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2.5">
       {/* Label row */}
-      <div className="flex justify-between items-center px-1">
+      <div className="flex justify-between items-center">
         <div className="flex items-center gap-2">
-          <span className="text-base">{icon}</span>
+          <span className="text-lg">{icon}</span>
           <label htmlFor={id} className="text-sm font-medium text-slate-200">
             {label}
           </label>
         </div>
-        <span className="text-xs text-slate-500 font-mono tabular-nums">
+        <span className="text-xs text-slate-500 font-mono tabular-nums min-w-[2.5rem] text-right">
           {value}
         </span>
       </div>
 
       {/* Track container */}
-      <div className="relative h-3 rounded-full bg-slate-800/80">
+      <div className="relative h-2 rounded-full bg-slate-800/40">
         {/* Filled track with scaleX animation */}
         <motion.div
-          className="absolute left-0 top-0 h-full rounded-full bg-gradient-to-r from-blue-500 to-cyan-400"
+          className="absolute left-0 top-0 h-full rounded-full bg-gradient-to-r from-blue-500 via-blue-400 to-cyan-400"
           style={{
             transformOrigin: 'left',
             willChange: 'transform',
@@ -71,10 +71,10 @@ export const SliderRow = React.memo<SliderRowProps>(function SliderRow({
 
         {/* Thumb indicator */}
         <div
-          className="absolute top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-white pointer-events-none transition-shadow duration-150"
+          className="absolute top-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full bg-white pointer-events-none"
           style={{
-            left: `calc(${fillProgress * 100}% - 10px)`,
-            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+            left: `calc(${fillProgress * 100}% - 7px)`,
+            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.25), 0 1px 2px rgba(0, 0, 0, 0.15)',
           }}
         />
       </div>
