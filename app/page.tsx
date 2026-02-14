@@ -29,14 +29,14 @@ export default function Home() {
       </header>
 
       {/* Main Layout Grid */}
-      <div className="min-h-screen w-full grid grid-cols-1 lg:grid-cols-2 gap-8 p-4 lg:p-8 pt-24">
+      <div className="min-h-screen w-full grid grid-cols-1 lg:grid-cols-2 gap-8 p-4 lg:p-6 pt-24">
         {/* Center Area - Planet Hero */}
-        <div className="flex items-center justify-center py-8">
+        <div className="flex items-center justify-center py-4">
           <PlanetHero impact={impact} />
         </div>
 
         {/* Right/Bottom Area - Impact Panel */}
-        <div className="flex items-center justify-center py-8">
+        <div className="flex items-center justify-center py-4">
           <ImpactPanel
             transport={transport}
             energy={energy}
