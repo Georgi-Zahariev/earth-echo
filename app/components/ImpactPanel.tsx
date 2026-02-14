@@ -87,14 +87,14 @@ export const ImpactPanel = React.memo<ImpactPanelProps>(function ImpactPanel({
       transition={{ duration: 0.8, ease: 'easeOut', delay: 0.2 }}
     >
       <div 
-        className="border border-white/5 rounded-3xl backdrop-blur-sm relative overflow-hidden flex flex-col max-h-[calc(100vh-120px)]"
+        className="border border-white/5 rounded-3xl backdrop-blur-sm relative overflow-hidden flex flex-col max-h-[calc(100vh-140px)]"
         style={{
           background: 'linear-gradient(180deg, rgba(15, 23, 42, 0.6) 0%, rgba(15, 23, 42, 0.4) 100%)',
           boxShadow: 'inset 0 1px 0 0 rgba(255, 255, 255, 0.03), 0 4px 24px rgba(0, 0, 0, 0.24)',
         }}
       >
         {/* Scrollable Content Area */}
-        <div className="overflow-y-auto flex-1 px-7 pt-6 pb-4 space-y-8">
+        <div className="overflow-y-auto flex-1 px-7 pt-5 pb-3 space-y-6">
           {/* Header Section */}
           <div className="space-y-1.5">
             <h2 className="text-xl font-medium tracking-tight text-slate-100">Impact Analysis</h2>
@@ -111,15 +111,18 @@ export const ImpactPanel = React.memo<ImpactPanelProps>(function ImpactPanel({
             <p className="text-xs text-slate-500 font-light">
               Primary driver: <span className="text-slate-400">{getPrimaryDriver()}</span>
             </p>
+            <p className="text-sm text-slate-500 font-light leading-relaxed max-w-md mt-2">
+              Find out how you influence the planet in your daily routine.
+            </p>
           </div>
 
           {/* Divider */}
           <div className="h-px bg-white/[0.04]" />
 
           {/* Real-world Inputs Section */}
-          <div className="space-y-4">
+          <div className="space-y-3">
             <h3 className="text-[10px] font-medium uppercase tracking-widest text-slate-500">Real-world Inputs</h3>
-            <div className="space-y-4">
+            <div className="space-y-3">
               <RealWorldInput
                 label="Driving"
                 value={realWorld.drivingHours}
@@ -154,9 +157,9 @@ export const ImpactPanel = React.memo<ImpactPanelProps>(function ImpactPanel({
           <div className="h-px bg-white/[0.04]" />
 
           {/* Impact Indicators Section */}
-          <div className="space-y-4">
+          <div className="space-y-3">
             <h3 className="text-[10px] font-medium uppercase tracking-widest text-slate-500">Environmental Impact</h3>
-            <div className="space-y-3.5">
+            <div className="space-y-2.5">
               <ImpactMeter 
                 label="Atmosphere" 
                 value={impact.visualState.smogOpacity} 
@@ -177,7 +180,7 @@ export const ImpactPanel = React.memo<ImpactPanelProps>(function ImpactPanel({
           </div>
         </div>
 
-        {/* Fixed Footer - Reset Button */}
+        {/* Fixed Footer - Reset */}
         <div className="border-t border-white/[0.04] px-7 py-3 flex justify-end">
           <button
             onClick={handleReset}
