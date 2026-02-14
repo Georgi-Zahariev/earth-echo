@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #000000;
+  --foreground: #ffffff;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .slider-thumb::-webkit-slider-thumb {
+    @apply appearance-none w-5 h-5 rounded-full bg-slate-400 cursor-pointer;
+  }
+  
+  .slider-thumb::-webkit-slider-thumb:hover {
+    box-shadow: 0 0 12px 2px rgba(148, 163, 184, 0.6);
+  }
+  
+  .slider-thumb::-moz-range-thumb {
+    @apply w-5 h-5 rounded-full bg-slate-400 cursor-pointer border-0;
+  }
+  
+  .slider-thumb::-moz-range-thumb:hover {
+    box-shadow: 0 0 12px 2px rgba(148, 163, 184, 0.6);
+  }
+}
+
