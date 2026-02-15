@@ -13,8 +13,37 @@ export default function Home() {
   const [energy, setEnergy] = useRafState(50)
   const [consumption, setConsumption] = useRafState(50)
   const [isLearnOpen, setIsLearnOpen] = useState(false)
+  const [aiFeedback, setAiFeedback] = useState<string>('')
+  const [isLoadingFeedback, setIsLoadingFeedback] = useState(false)
 
   const impact = calculateImpact({ transport, energy, consumption })
+
+  // Fetch AI feedback
+  const fetchFeedback = () => {
+    setIsLoadingFeedback(true)
+    setAiFeedback('')
+    fetch('/api/feedback', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ transport, energy, consumption }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setAiFeedback(data.feedback || '')
+        setIsLoadingFeedback(false)
+      })
+      .catch(() => {
+        setAiFeedback('Unable to generate personalized feedback at this time.')
+        setIsLoadingFeedback(false)
+      })
+  }
+
+  // Fetch AI feedback when learn more opens
+  useEffect(() => {
+    if (isLearnOpen && !aiFeedback) {
+      fetchFeedback()
+    }
+  }, [isLearnOpen])
 
   // Auto-scroll when learn more opens/closes
   useEffect(() => {
@@ -70,34 +99,63 @@ export default function Home() {
         <motion.div
           initial={false}
           animate={{ 
-            maxHeight: isLearnOpen ? '500px' : '0px',
+            maxHeight: isLearnOpen ? '800px' : '0px',
             opacity: isLearnOpen ? 1 : 0,
             y: isLearnOpen ? 0 : -20,
           }}
           transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           className="overflow-hidden w-full max-w-2xl"
         >
-          <div className="border border-white/10 rounded-2xl bg-slate-900/95 backdrop-blur-md shadow-2xl p-8">
-            <div className="space-y-4">
-              <h3 className="text-base font-medium text-slate-300">How it works</h3>
-              <ul className="space-y-3 text-sm text-slate-400 leading-relaxed">
-                <li className="flex gap-3">
-                  <span className="text-slate-600 mt-1">•</span>
-                  <span>Carbon Score is a simple estimate based on driving, home energy, and deliveries.</span>
-                </li>
-                <li className="flex gap-3">
-                  <span className="text-slate-600 mt-1">•</span>
-                  <span>Higher values generally mean more emissions and resource use.</span>
-                </li>
-                <li className="flex gap-3">
-                  <span className="text-slate-600 mt-1">•</span>
-                  <span>Small changes (less driving, lower energy use, fewer deliveries) reduce impact.</span>
-                </li>
-              </ul>
-              <p className="text-xs text-slate-600 italic pt-2">
-                This is an educational estimate — not a scientific audit.
+          <div className="border border-white/10 rounded-2xl bg-slate-900/95 backdrop-blur-md shadow-2xl p-8 space-y-6 relative">
+            {/* What is Carbon Score */}
+            <div className="space-y-3">
+              <h3 className="text-base font-medium text-slate-300">What is Carbon Score?</h3>
+              <p className="text-sm text-slate-400 leading-relaxed">
+                Carbon Score is a simplified metric that estimates your environmental impact based on three key daily habits: 
+                driving, home energy consumption, and online shopping. While not a scientific carbon footprint calculator, 
+                it helps you understand how your choices affect the planet and identify areas where small changes can make a difference.
               </p>
             </div>
+
+            {/* Divider */}
+            <div className="h-px bg-white/[0.08]" />
+
+            {/* Personalized AI Feedback */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <h3 className="text-base font-medium text-slate-300">Your Impact Analysis</h3>
+                {aiFeedback && !isLoadingFeedback && (
+                  <button
+                    onClick={fetchFeedback}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-colors text-xs text-slate-400 hover:text-slate-300"
+                    title="Regenerate feedback based on current values"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
+                    </svg>
+                    Refresh
+                  </button>
+                )}
+              </div>
+              {isLoadingFeedback ? (
+                <div className="flex items-center gap-3 text-sm text-slate-500">
+                  <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Analyzing your habits...
+                </div>
+              ) : (
+                <p className="text-sm text-slate-400 leading-relaxed">
+                  {aiFeedback || 'Open this section to get personalized feedback on your environmental impact.'}
+                </p>
+              )}
+            </div>
+
+            {/* Footer Note */}
+            <p className="text-xs text-slate-600 italic pt-2">
+              This is an educational estimate — not a scientific audit.
+            </p>
           </div>
         </motion.div>
       </div>
