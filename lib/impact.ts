@@ -137,8 +137,8 @@ export function calculateImpact(inputs: ImpactInputs): ImpactResult {
     // Heat: 0-1 direct mapping
     warmth: clamp01(heat / 100),
     
-    // Atmosphere: 0-1 direct mapping (reaches 100% at max inputs)
-    smogOpacity: clamp01(atmosphere / 100),
+    // Atmosphere: 0-0.8 mapping (cap at 80% to keep Earth visible)
+    smogOpacity: clamp01((atmosphere / 100) * 0.8),
     
     // Ice health: 1 (healthy) to 0.7 (melted)
     // When iceLoss=100, iceScale=0.7; when iceLoss=0, iceScale=1

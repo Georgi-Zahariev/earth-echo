@@ -24,12 +24,16 @@ export const Globe = React.memo<GlobeProps>(function Globe({ warmth = 0, smogOpa
         }}
         frameloop="always"
       >
-        <ambientLight intensity={1.0} />
+        {/* LIGHTS - Increased ambient for brighter colors */}
+        <ambientLight intensity={1.5} />
         <DynamicKeyLight warmth={warmth} />
         <directionalLight position={[-2, -1, -2]} intensity={0.4} color="#ffffff" />
+        
+        {/* LAYERS - All enabled with brighter lighting */}
         <EarthSphere warmth={warmth} smogOpacity={smogOpacity} />
         <CloudLayer />
         <SmogOverlay smogOpacity={smogOpacity} />
+        {/* <AtmosphereGlow /> */}
       </Canvas>
     </div>
   )
