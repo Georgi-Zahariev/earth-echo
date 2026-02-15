@@ -284,7 +284,7 @@ const RealWorldInput = React.memo<RealWorldInputProps>(function RealWorldInput({
             onChange={handleNumberChange}
             min={min}
             max={max}
-            className="w-14 px-2 py-1 bg-white/[0.03] border border-white/[0.06] rounded text-xs text-slate-300 focus:outline-none focus:border-white/10 transition-colors tabular-nums"
+            className="w-16 px-2 py-1 bg-white/[0.03] border border-white/[0.06] rounded text-xs text-slate-300 focus:outline-none focus:border-white/10 transition-colors tabular-nums"
           />
           <span className="text-xs text-slate-600 w-14 font-light">{suffix}</span>
         </div>
